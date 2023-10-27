@@ -1,0 +1,6 @@
+helmChart:
+  repo: https://stakater.github.io/stakater-charts
+  chartName: reloader
+  chartVersion: 1.0.48
+  releaseName: reloader
+  namespace: reloader

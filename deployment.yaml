@@ -1,0 +1,17 @@
+deployments:
+  - git:
+      url: https://github.com/kluctl/kluctl.git
+      subDir: install/controller
+      ref:
+        tag: v2.21.2
+  - git:
+      url: https://github.com/kluctl/kluctl.git
+      subDir: install/webui
+      ref:
+        tag: v2.21.2
+  - include: infrastructure
+  - barrier: true
+
+commonLabels:
+  k-ship.target: {{ target.name }}
+  k-ship.environment: {{ args.environment }}

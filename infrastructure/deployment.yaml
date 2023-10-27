@@ -1,0 +1,6 @@
+deployments:
+  - path: crds
+  - barrier: true
+  - path: reloader
+  - path: cert-manager
+  - path: sealed-secrets

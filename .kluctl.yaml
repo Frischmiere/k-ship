@@ -1,0 +1,9 @@
+discriminator: "k-ship-{{ target.name }}"
+
+targets:
+  - name: local
+    args:
+      environment: local
+
+args:
+  - name: environment
