@@ -1,8 +1,8 @@
-# https://github.com/bitnami-labs/sealed-secrets/releases/latest/download/controller.yaml
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: sealed-secrets
 resources:
   - namespace.yaml
+  - seal-start-certs.yaml
   - helm-rendered.yaml

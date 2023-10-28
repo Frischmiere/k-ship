@@ -1,3 +1,6 @@
+enableCertificateOwnerRef: true
+extraArgs:
+  - --logging-format json
 resources:
   requests:
     cpu: 20m
@@ -5,7 +8,15 @@ resources:
   limits:
     cpu: 20m
     memory: 60Mi
+prometheus:
+  servicemonitor:
+    enabled: true
+    honorLabels: true
+    namespace: monitoring
+enableServiceLinks: true
 cainjector:
+  extraArgs:
+    - --logging-format json
   resources:
     requests:
       cpu: 20m
@@ -14,6 +25,8 @@ cainjector:
       cpu: 20m
       memory: 100Mi
 webhook:
+  extraArgs:
+    - --logging-format json
   resources:
     requests:
       cpu: 20m
@@ -21,3 +34,6 @@ webhook:
     limits:
       cpu: 20m
       memory: 50Mi
+startupaipcheck:
+  extraArgs:
+    - --logging-format json
