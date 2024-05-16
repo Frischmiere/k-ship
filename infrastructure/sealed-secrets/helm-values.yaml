@@ -1,7 +1,0 @@
-metrics:
-  serviceMonitor:
-    enabled: true
-    namespace: monitoring
-  dashboards:
-    enabled: true
-    namespace: monitoring

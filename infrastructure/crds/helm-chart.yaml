@@ -1,5 +1,0 @@
-helmChart:
-  repo: https://prometheus-community.github.io/helm-charts
-  chartName: prometheus-operator-crds
-  chartVersion: 6.0.0
-  releaseName: prometheus-operator-crds

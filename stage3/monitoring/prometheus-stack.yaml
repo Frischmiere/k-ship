@@ -1,0 +1,115 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: prometheus-stack
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: charts/kube-prometheus-stack
+      sourceRef:
+        kind: GitRepository
+        name: prometheus-community-charts
+        namespace: flux-system
+  values:
+    cleanPrometheusOperatorObjectNames: true
+    crds:
+      enabled: false
+    global:
+      rbac:
+        createAggregateClusterRoles: true
+    alertManager:
+      alertManagerSpec:
+        logFormat: json
+        storage:
+          volumeClaimTemplate:
+            spec:
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 10Gi
+        routePrefix: /alert-manager
+        resources:
+          requests:
+            cpu: 50m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 200Mi
+    grafana:
+      adminPassword: QwZfhVKNdx42T7YcAEugnH
+    kubelet:
+      serviceMonitor:
+        attachMetadata:
+          node: true
+    kubeDns:
+      enabled: true
+    kube-state-metrics:
+      selfMonitor:
+        enabled: true
+    prometheusOperator:
+      admissionWebhooks:
+        certManager:
+          enabled: true
+          issuerRef:
+            name: "my-ca-issuer"
+            kind: "ClusterIssuer"
+      logFormat: json
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
+        limits:
+          cpu: 200m
+          memory: 200Mi
+      prometheusConfigReloader: {}
+    prometheus:
+      # thanosService:
+      #   enabled: true
+      # thanosServiceMonitor:
+      #   enabled: true
+      prometheusSpec:
+        scrapeInterval: 10s
+        enableAdminAPI: true
+        scrapeTimeout: 5s
+        evaluationInterval: 30s
+        retention: 14d
+        retentionSize: "10GiB"
+        shards: 3
+        logFormat: json
+        routePrefix: /prometheus
+        resources:
+          requests:
+            cpu: 300m
+            memory: 400Mi
+          limits:
+            cpu: 500m
+            memory: 600Mi
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 10Gi
+    # thanosRuler:
+    #   enabled: true
+    #   thanosRulerSpec:
+    #     logFormat: json
+    #     replicas: 3
+    #     routePrefix: /thanos-ruler
+    #     resources:
+    #       requests:
+    #         cpu: 300m
+    #         memory: 400Mi
+    #       limits:
+    #         cpu: 500m
+    #         memory: 600Mi
+    #     storageSpec:
+    #       volumeClaimTemplate:
+    #         spec:
+    #           accessModes: ["ReadWriteOnce"]
+    #           resources:
+    #             requests:
+    #               storage: 10Gi

@@ -1,0 +1,17 @@
+deployments:
+  - git:
+      url: https://github.com/kluctl/kluctl.git
+      subDir: install/controller
+      ref:
+        tag: v2.21.2
+  - git:
+      url: https://github.com/kluctl/kluctl.git
+      subDir: install/webui
+      ref:
+        tag: v2.21.2
+  - path: cert-manager
+  - path: idp
+  - path: kubegres
+  - path: prometheus
+  - path: reloader
+  - path: sealed-secrets

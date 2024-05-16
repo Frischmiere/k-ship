@@ -1,0 +1,61 @@
+global:
+  leaderElection:
+    namespace: cert-manager
+enableCertificateOwnerRef: true
+enableServiceLinks: true
+extraArgs:
+  - --logging-format=json
+resources:
+  requests:
+    cpu: 10m
+    memory: 32Mi
+  limits:
+    cpu: 10m
+    memory: 32Mi
+prometheus:
+  servicemonitor:
+    enabled: true
+    honorLabels: true
+    namespace: monitoring
+    prometheusInstance: k8s
+ingressShim:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+    limits:
+      cpu: 10m
+      memory: 32Mi
+webhook:
+  extraArgs:
+    - --logging-format=json
+  resources:
+    requests:
+      cpu: 20m
+      memory: 64Mi
+    limits:
+      cpu: 20m
+      memory: 64Mi
+  enableServiceLinks: true
+cainjector:
+  extraArgs:
+    - --logging-format=json
+  resources:
+    requests:
+      cpu: 20m
+      memory: 64Mi
+    limits:
+      cpu: 20m
+      memory: 64Mi
+  enableServiceLinks: true
+startupaipcheck:
+  extraArgs:
+    - --logging-format=json
+  resources:
+    requests:
+      cpu: 100m
+      memory: 320Mi
+    limits:
+      cpu: 100m
+      memory: 320Mi
+  enableServiceLinks: true

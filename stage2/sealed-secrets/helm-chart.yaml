@@ -1,0 +1,6 @@
+helmChart:
+  chartName: sealed-secrets
+  chartVersion: 2.15.3
+  namespace: kube-system
+  releaseName: sealed-secrets
+  repo: https://bitnami-labs.github.io/sealed-secrets

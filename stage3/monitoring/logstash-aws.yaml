@@ -1,0 +1,125 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logstash-aws-configmap
+data:
+  logstash.yml: |
+    http.host: "0.0.0.0"
+    path.config: /usr/share/logstash/pipeline    
+  logstash.conf: |
+    input {
+      beats {
+        port => 5044
+        ssl_enabled => false
+      }
+    }
+    filter {
+      #Nginx
+      grok {
+        match => { "message" => [
+          "%{IPORHOST:[nginx][access][remote_ip]} - %{DATA:[nginx][access][user_name]} \[%{HTTPDATE:[nginx][access][time]}\] \"%{WORD:[nginx][access][method]} %{DATA:[nginx][access][url]} HTTP/%{NUMBER:[nginx][access][http_version]}\" %{NUMBER:[nginx][access][response_code]} %{NUMBER:[nginx][access][body_sent][bytes]}( \"%{DATA:[nginx][access][referrer]}\")?( \"%{DATA:[nginx][access][agent]}\")?",
+          "%{IPORHOST:[nginx][access][remote_ip]} - %{DATA:[nginx][access][user_name]} \\[%{HTTPDATE:[nginx][access][time]}\\] \"-\" %{NUMBER:[nginx][access][response_code]} -",
+          "%{IPORHOST:[nginx][access][remote_ip]} -( %{DATA:[nginx][access][user_name]})? - \[%{HTTPDATE:[nginx][access][time]}\] \"%{IPORHOST:[nginx][access][host]}\" \"%{WORD:[nginx][access][method]} %{DATA:[nginx][access][url]} HTTP/%{NUMBER:[nginx][access][http_version]}\" %{NUMBER:[nginx][access][response_code]} %{NUMBER:[nginx][access][body_sent][bytes]}( \"%{DATA:[nginx][access][referrer]}\")?( \"%{DATA:[nginx][access][agent]}\")?(%{GREEDYDATA:[nginx][access][extra]})?",
+          "%{IPORHOST:[nginx][access][remote_ip]} -( %{DATA:[nginx][access][user_name]})? - \[%{HTTPDATE:[nginx][access][time]}\] \"%{IPORHOST:[nginx][access][host]}\" \"%{NOTSPACE:[nginx][access][broken_url]}\" %{NUMBER:[nginx][access][response_code]} %{NUMBER:[nginx][access][body_sent][bytes]}( \"%{DATA:[nginx][access][referrer]}\")?( \"%{DATA:[nginx][access][agent]}\")?(%{GREEDYDATA:[nginx][access][extra]})?",
+          "%{DATESTAMP:[nginx][error][time]} \[%{LOGLEVEL:[level]}\] %{NOTSPACE:[nginx][error][unknown_1]} %{NOTSPACE:[nginx][error][unknown_2]} %{DATA:[nginx][error][message]}, client: %{IPORHOST:[nginx][error][client]}, server: %{IPORHOST:[nginx][error][server]}, request: \"%{WORD:[nginx][access][method]} %{DATA:[nginx][access][url]} HTTP/%{NUMBER:[nginx][access][http_version]}\", upstream: \"%{DATA:[nginx][error][upstream]}\", host: \"%{IPORHOST:[nginx][access][host]}\"(%{GREEDYDATA:[nginx][error][extra]})?",
+
+          "%{TIMESTAMP_ISO8601:timestamp}\s+\[%{LOGLEVEL:level}\]\s*\[%{NUMBER:thread}\]\s+%{NOTSPACE:[source][file][name]}\s+%{NUMBER:[source][file][line_number]}:\s+%{GREEDYDATA:message}",
+          "%{TIMESTAMP_ISO8601:timestamp} - \[%{NOTSPACE:thread}\] %{LOGLEVEL:level}\s+%{NOTSPACE:class}\s* - %{GREEDYDATA:message}",
+          "\[%{TIMESTAMP_ISO8601:timestamp}\]\[%{LOGLEVEL:level}\s*\]\[%{NOTSPACE:class}\s*\]\s*\[%{NOTSPACE:thread}\]\s*%{GREEDYDATA:message}",
+          "\[%{LOGLEVEL:level}\s*\]\s*%{TIMESTAMP_ISO8601:timestamp}\s*\[%{NOTSPACE:class}\s*\]\s*%{GREEDYDATA:message}",
+          "%{TIMESTAMP_ISO8601:timestamp}\s+%{LOGLEVEL:level}\s+%{DATA:data}\s+%{GREEDYDATA:message}"
+         ]
+        }
+      }
+
+      date {
+        match => [ "[nginx][access][time]", "dd/MMM/YYYY:H:m:s Z", "YYYY/mm/dd H:m:s" ]
+      }
+
+      useragent {
+        source => "[nginx][access][agent]"
+        target => "[nginx][access][user_agent]"
+      }
+
+      geoip {
+        source => "[nginx][access][remote_ip]"
+        target => "[nginx][access][geoip]"
+      }
+
+      mutate {
+        convert => {
+          "nginx.access.geoip.geo.postal_code" => "string"
+          "nginx.access.response_code" => "integer"
+        }
+      }
+    }
+    output {
+      opensearch {
+        hosts => ["https://os-master:9200"]
+        index => "logstash-aws-%{+YYYY.MM.dd}"
+        user => "logstash-aws"
+        password => "R!TQ~Mw$wzz3uXD8"
+        ssl => true
+        ssl_certificate_verification => false
+      }
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logstash-aws-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logstash-aws
+  template:
+    metadata:
+      labels:
+        app: logstash-aws
+    spec:
+      containers:
+        - name: logstash-aws
+          image: opensearchproject/logstash-oss-with-opensearch-output-plugin:8.9.0
+          ports:
+            - containerPort: 5044
+              name: beats
+          volumeMounts:
+            - name: config-volume
+              mountPath: /usr/share/logstash/config
+            - name: logstash-pipeline-volume
+              mountPath: /usr/share/logstash/pipeline
+          resources:
+              limits:
+                memory: "2Gi"
+                cpu: "1000m"
+              requests: 
+                memory: "1Gi"
+                cpu: "500m"
+      volumes:
+        - name: config-volume
+          configMap:
+            name: logstash-aws-configmap
+            items:
+              - key: logstash.yml
+                path: logstash.yml
+        - name: logstash-pipeline-volume
+          configMap:
+            name: logstash-aws-configmap
+            items:
+              - key: logstash.conf
+                path: logstash.conf
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: logstash-aws-service
+spec:
+  selector:
+    app: logstash-aws
+  ports:
+    - protocol: TCP
+      port: 5044
+      targetPort: beats
+      name: beats

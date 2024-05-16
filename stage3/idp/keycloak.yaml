@@ -1,0 +1,67 @@
+---
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: idp
+spec:
+  instances: 1
+  db:
+    vendor: postgres
+    host: kcpg
+    usernameSecret:
+      name: kcpg
+      key: keycloakUsername
+    passwordSecret:
+      name: kcpg
+      key: keycloakPassword
+    database: keycloak
+  http:
+    httpEnabled: true
+  hostname:
+    strict: false
+    strictBackchannel: false
+  ingress:
+    enabled: false
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+  # unsupported:
+  #   podTemplate:
+  #     spec:
+  #       containers:
+  #         - name: keycloak
+  #           ports:
+  #             - containerPort: 7800
+  #               name: infinispan
+  #               protocol: TCP
+  # features:
+  #   enabled:
+  #     - authorization
+  #     - account-api
+  #     - account2
+  #     - ciba
+  #     - client-policies
+  #     - docker
+  #     - impersonation
+  #     - js-adapter
+  #     - kerberos
+  #     - par
+  #     - preview
+  #     - web-authn
+  # additionalOptions:
+  #   - name: log-file-output
+  #     value: "json"
+  #   - name: log-console-output
+  #     value: "json"
+  #   - name: metrics-enabled
+  #     value: "true"
+    # - name: proxy
+    #   value: "edge"
+    # - name: http-relative-path
+    #   value: "/sso"
+    # - name: hostname-debug
+    #   value: "true"
