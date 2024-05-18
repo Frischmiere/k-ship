@@ -3,15 +3,18 @@ deployments:
       url: https://github.com/kluctl/kluctl.git
       subDir: install/controller
       ref:
-        tag: v2.21.2
-  - git:
-      url: https://github.com/kluctl/kluctl.git
-      subDir: install/webui
-      ref:
-        tag: v2.21.2
+        tag: v2.24.1
+  # - git:
+  #     url: https://github.com/kluctl/kluctl.git
+  #     subDir: install/webui
+  #     ref:
+  #       tag: v2.24.1
+  #   vars:
+  #     - values:
+  #         webui_args:
+  #           - '--auth-static-login-enabled false'
   - path: cert-manager
-  - path: idp
+  - path: gatewayAPI
+  - path: keycloak
   - path: kubegres
-  - path: prometheus
-  - path: reloader
-  - path: sealed-secrets
+  - path: monitoring

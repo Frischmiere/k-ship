@@ -1,5 +1,4 @@
 deployments:
   - path: cert-manager
-  - path: idp
-  - path: reloader
   - path: sealed-secrets
+  - path: traefik

@@ -1,8 +1,7 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: sealed-secrets
+namespace: traefik
 resources:
   - namespace.yaml
-  - seal-start-certs.yaml
+  - self-cert.yaml
   - helm-rendered.yaml

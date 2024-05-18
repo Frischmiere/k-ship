@@ -1,0 +1,43 @@
+experimental:
+  kubernetesGateway:
+    enabled: true
+ingressRoute:
+  healthcheck:
+    enabled: true
+providers:
+  kubernetesCRD:
+    allowExternalNameServices: true
+    allowEmptyServices: true
+  kubernetesIngress:
+    allowExternalNameServices: true
+    allowEmptyServices: true
+logs:
+  general:
+    format: json
+  access:
+    enabled: true
+    format: json
+    fields:
+      headers:
+        defaultmode: keep
+        names:
+          Authorization: redact
+metrics:
+  prometheus:
+    addRoutersLabels: true
+  otlp:
+    # enabled: true
+    addRoutersLabels: true
+tlsStore:
+  default:
+    defaultCertificate:
+      secretName: default-self-tls
+globalArguments:
+  - "--global.checknewversion"
+resources:
+  requests:
+    cpu: 200m
+    memory: 200Mi
+  limits:
+    cpu: 200m
+    memory: 200Mi
