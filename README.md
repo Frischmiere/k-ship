@@ -23,6 +23,10 @@ kluctl deploy -t local -y --prune
 ```
 On a fresh deploy, there is usually some error: re-execute the deploy.
 ```shell
+kubectl port-forward svc/traefik 8080:80 -n traefik
+```
+[Traefik Dashboard](http://localhost:8080/dashboard/)
+```shell
 kubectl get secret -n keycloak idp-initial-admin -ojson | jq -r '.data.password' | base64 -d
 ```
 copy password

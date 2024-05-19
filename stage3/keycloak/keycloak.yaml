@@ -21,8 +21,8 @@ spec:
     # hostname: localhost
     strict: false
     strictBackchannel: false
-  # ingress:
-  #   enabled: false
+  ingress:
+    enabled: false
   resources:
     requests:
       cpu: 500m
@@ -31,8 +31,8 @@ spec:
       cpu: 500m
       memory: 1Gi
   additionalOptions:
-    # - name: log-file-output
-    #   value: "json"
+    - name: log-file-output
+      value: "json"
     - name: log-console-output
       value: "json"
     - name: metrics-enabled

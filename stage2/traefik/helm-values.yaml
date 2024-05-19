@@ -1,3 +1,6 @@
+api:
+  dashboard: true
+  insecure: true
 experimental:
   kubernetesGateway:
     enabled: true
@@ -28,6 +31,10 @@ metrics:
   otlp:
     # enabled: true
     addRoutersLabels: true
+# tracing:
+#   addInternals: true
+  # otlp:
+  #   enabled: true
 tlsStore:
   default:
     defaultCertificate:
