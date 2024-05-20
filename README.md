@@ -1,4 +1,6 @@
 # k-ship
+**80% of all K8s needs**
+
 All the essentials for a Kubernetes cluster.
 - API gateway & ingress
 - authorization & authentication

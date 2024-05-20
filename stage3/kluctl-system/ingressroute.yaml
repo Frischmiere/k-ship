@@ -1,0 +1,15 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: klugui
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - kind: Rule
+      match: PathPrefix(`/klugui`)
+      services:
+        - kind: Service
+          name: kluctl-webui
+          port: 8080

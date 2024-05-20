@@ -1,3 +1,4 @@
 deployments:
   - path: keycloak
+  - path: kluctl-system
   - path: traefik
