@@ -4,15 +4,11 @@ deployments:
       subDir: install/controller
       ref:
         tag: v2.24.1
-  # - git:
-  #     url: https://github.com/kluctl/kluctl.git
-  #     subDir: install/webui
-  #     ref:
-  #       tag: v2.24.1
-  #   vars:
-  #     - values:
-  #         webui_args:
-  #           - '--auth-static-login-enabled false'
+  - git:
+      url: https://github.com/kluctl/kluctl.git
+      subDir: install/webui
+      ref:
+        tag: v2.24.1
   - path: cert-manager
   - path: gatewayAPI
   - path: keycloak

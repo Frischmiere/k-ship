@@ -1,3 +1,12 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: auth
+spec:
+  forwardAuth:
+    address: http://localhost:8080/sso
+---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:

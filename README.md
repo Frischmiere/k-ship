@@ -22,14 +22,34 @@ minikube start --cpus=2 --memory=4g --disk-size=20g --container-runtime=cri-o --
 kluctl deploy -t local -y --prune
 ```
 On a fresh deploy, there is usually some error: re-execute the deploy.
+
+#### Traefik Dashboard:
 ```shell
 kubectl port-forward svc/traefik 8080:80 -n traefik
 ```
 [Traefik Dashboard](http://localhost:8080/dashboard/)
+
+#### Kluctl Webui:
+
+`admin`
+```shell
+kubectl get secret/webui-secret -n kluctl-system -ojson | jq -r '.data."viewer-password"' | base64 -d
+```
+`viewer`
+```shell
+kubectl get secret/webui-secret -n kluctl-system -ojson | jq -r '.data."admin-password"' | base64 -d
+```
+```shell
+kubectl port-forward svc/kluctl-webui 8080:8080 -n kluctl-system
+```
+[Kluctl Webui](http://localhost:8080)
+
+#### Keycloak:
 ```shell
 kubectl get secret -n keycloak idp-initial-admin -ojson | jq -r '.data.password' | base64 -d
 ```
-copy password
+
+#### Destroy Cluster:
 ```shell
 kluctl delete -y -t local
 minikube delete
@@ -73,7 +93,13 @@ Identity provider.  The operator facilitates `realm` imports through a `CRD` for
 ### Traefik Proxy
 https://traefik.io/traefik/
 
-An API Gateway.  This was selected because, of the open-source options, it provides the best API management, API authentication, and API observability combination; although, it is missing the feature to authorize access to APIs by role.  Other contenders were KrankenD (oss) and Tyk, but each open-source option was lacking in one aspect or another.  KrakenD (oss) was lacking in API management, and Tyk was not connecting to Keycloak.
+An API Gateway.  This was selected because, of the open-source options, it provides the best API management, API authentication, and API observability combination; although, it is missing the feature to authorize access to APIs by role/claims.  Other contenders were KrankenD (oss) and Tyk, but each open-source option was lacking in one aspect or another.  KrakenD (oss) was lacking in API management, and Tyk was not connecting to Keycloak.  Traefik Enterprise has the ability to [authorize on claims](https://doc.traefik.io/traefik-enterprise/middlewares/oidc/#claims).
 
 ### Prometheus?
+todo
+
+### Kuma?
+todo
+
+### others?
 todo
