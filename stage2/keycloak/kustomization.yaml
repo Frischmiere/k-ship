@@ -3,4 +3,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: keycloak
 resources:
-  - ingressroutes.yaml
+  - kcdb-account.yaml
+  - postgres
+  - keycloak.yaml

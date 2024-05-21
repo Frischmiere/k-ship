@@ -9,11 +9,11 @@ spec:
     vendor: postgres
     host: kcpg
     usernameSecret:
-      name: kcpg
-      key: keycloakUsername
+      name: kcdb-secret
+      key: namespace
     passwordSecret:
-      name: kcpg
-      key: keycloakPassword
+      name: kcdb-secret
+      key: token
     database: keycloak
   http:
     httpEnabled: true
@@ -37,8 +37,8 @@ spec:
       value: "json"
     - name: metrics-enabled
       value: "true"
-    # - name: proxy
-    #   value: "edge"
+    - name: proxy
+      value: "edge"
     - name: http-relative-path
       value: "/sso"
     # - name: hostname-debug

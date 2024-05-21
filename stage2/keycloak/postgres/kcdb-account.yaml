@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: postgres-account
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+  annotations:
+    kubernetes.io/service-account.name: postgres-account
+type: kubernetes.io/service-account-token
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pg-replicator-account
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pg-replicator-secret
+  annotations:
+    kubernetes.io/service-account.name: pg-replicator-account
+type: kubernetes.io/service-account-token

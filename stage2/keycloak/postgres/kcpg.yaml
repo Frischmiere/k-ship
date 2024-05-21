@@ -19,25 +19,25 @@ spec:
     - name: PGPASSWORD
       valueFrom:
         secretKeyRef:
-          name: kcpg
-          key: superUserPassword
+          name: postgres-secret
+          key: token
     - name: POSTGRES_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: kcpg
-          key: superUserPassword
+          name: postgres-secret
+          key: token
     - name: POSTGRES_REPLICATION_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: kcpg
-          key: replicationUserPassword
+          name: pg-replicator-secret
+          key: token
     - name: POSTGRES_KEYCLOAK_USERNAME
       valueFrom:
         secretKeyRef:
-          name: kcpg
-          key: keycloakUsername
+          name: kcdb-secret
+          key: namespace
     - name: POSTGRES_KEYCLOAK_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: kcpg
-          key: keycloakPassword
+          name: kcdb-secret
+          key: token

@@ -1,5 +1,5 @@
 # k-ship
-**80% of all K8s needs**
+**80% of all K8s skaffolding needs**
 
 All the essentials for a Kubernetes cluster.
 - API gateway & ingress
@@ -23,13 +23,7 @@ All the essentials for a Kubernetes cluster.
 minikube start --cpus=2 --memory=4g --disk-size=20g --container-runtime=cri-o --nodes=3
 kluctl deploy -t local -y --prune
 ```
-On a fresh deploy, there is usually some error: re-execute the deploy.
-
-#### Traefik Dashboard:
-```shell
-kubectl port-forward svc/traefik 8080:80 -n traefik
-```
-[Traefik Dashboard](http://localhost:8080/dashboard/)
+On a fresh deploy, there is occasionally some error: re-execute the deploy.
 
 #### Kluctl Webui:
 
@@ -46,14 +40,29 @@ kubectl port-forward svc/kluctl-webui 8080:8080 -n kluctl-system
 ```
 [Kluctl Webui](http://localhost:8080)
 
+#### TRAEFIK_IP
+```shell
+minikube tunnel
+```
+_in annother terminal_
+```shell
+kubectl get svc -n traefik
+```
+
 #### Keycloak:
 ```shell
-kubectl get secret -n keycloak idp-initial-admin -ojson | jq -r '.data.password' | base64 -d
+kubectl get secret -n keycloak keycloak-initial-admin -ojson | jq -r '.data.password' | base64 -d
 ```
+https://TRAEFIK_IP/sso
+
+#### Traefik Dashboard:
+(trailing `/` is required)
+https://TRAEFIK_IP/dashboard/
 
 #### Destroy Cluster:
 ```shell
 kluctl delete -y -t local
+# or just
 minikube delete
 ```
 
@@ -79,6 +88,15 @@ To automatically reload pods when the `secret` or `configMap` changes.
 https://sealed-secrets.netlify.app/
 
 `Secrets` can be encrypted but only decrypted in the cluster, so that they can be commit to version control.  A starting certificate provided to create sealed secrets before creating a cluster: [stage2/sealed-secrets/tls.cert](stage2/sealed-secrets).
+
+Example:
+```shell
+# create the secret
+# anything with "secret" in the name will be ignored by git
+kubectl create secret generic SECRET_NAME --namespace=NAMESPACE --dry-run=client -oyaml --from-literal=KEY_NAME=KEY_VALUE > PATH/TO/RELEVANT/RESOURCES/MY-secret.yaml
+# create the sealed resource
+kubeseal --cert stage2/sealed-secrets/tls.cert -f PATH/TO/RELEVANT/RESOURCES/MY-secret.yaml -w PATH/TO/RELEVANT/RESOURCES/MY-sealed.yaml
+```
 
 ### Kubegres
 https://www.kubegres.io/

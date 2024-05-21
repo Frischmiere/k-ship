@@ -23,18 +23,18 @@ data:
     dt=$(date '+%d/%m/%Y %H:%M:%S');
     echo "$dt - Running init script the 1st time Primary Kubegres container is created...";
 
-    customDatabaseName="keycloak"
+    keycloakDatabaseName="keycloak"
 
     echo "$dt - Running: psql -v ON_ERROR_STOP=1 --username $POSTGRES_USER --dbname $POSTGRES_DB ...";
 
     psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
       CREATE USER $POSTGRES_KEYCLOAK_USERNAME WITH PASSWORD '$POSTGRES_KEYCLOAK_PASSWORD';
-      CREATE DATABASE $customDatabaseName;
-      \connect $customDatabaseName;
+      CREATE DATABASE $keycloakDatabaseName;
+      \connect $keycloakDatabaseName;
       GRANT ALL ON SCHEMA public TO $POSTGRES_KEYCLOAK_USERNAME;
     EOSQL
     
-    # psql -v ON_ERROR_STOP=1 --username "$POSTGRES_KEYCLOAK_USERNAME" --dbname "$customDatabaseName" <<-EOSQL
+    # psql -v ON_ERROR_STOP=1 --username "$POSTGRES_KEYCLOAK_USERNAME" --dbname "$keycloakDatabaseName" <<-EOSQL
     #   CREATE TABLE account(user_id serial PRIMARY KEY, username VARCHAR (50) NOT NULL);
     #   INSERT INTO account VALUES (1, 'username1');
     #   INSERT INTO account VALUES (2, 'username2');

@@ -11,7 +11,7 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: keycloak-insecure-noredirect
+  name: keycloak-insecure-redirect
 spec:
   entryPoints:
     - web
@@ -22,8 +22,8 @@ spec:
         - kind: Service
           name: keycloak-service
           port: http
-      # middlewares:
-      #   - name: https-redirect
+      middlewares:
+        - name: https-redirect
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
@@ -39,4 +39,3 @@ spec:
         - kind: Service
           name: keycloak-service
           port: http
-  tls: {}
