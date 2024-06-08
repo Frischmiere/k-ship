@@ -1,4 +1,4 @@
 deployments:
-  - path: keycloak
-  - path: kluctl-system
+  # ⚠️ Temporarily disabled as [Kluctl-Webgui does not work correctly within a path context](https://github.com/kluctl/kluctl/issues/1078).
+  # - path: kluctl-system
   - path: traefik

@@ -1,5 +1,4 @@
 deployments:
   - path: cert-manager
-  - path: keycloak
+  - path: reloader
   - path: sealed-secrets
-  - path: traefik

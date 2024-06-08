@@ -1,0 +1,78 @@
+api:
+  dashboard: true
+  insecure: true
+experimental:
+  plugins:
+    # keycloakopenid:
+    #   moduleName: "github.com/Gwojda/keycloakopenid"
+    #   version: "v0.1.35"
+    traefikoidc:
+      moduleName: "github.com/wdonne/traefikoidc"
+      version: "v1.2.0"
+    jwt-middleware:
+      moduleName: "github.com/Brainnwave/jwt-middleware"
+      version: "v1.2.1"
+    pathauth:
+      moduleName: "github.com/aarlint/pathauth"
+      version: "v0.2.3"
+  kubernetesGateway:
+    enabled: true
+ingressRoute:
+  healthcheck:
+    enabled: true
+providers:
+  kubernetesCRD:
+    allowExternalNameServices: true
+    allowEmptyServices: true
+  kubernetesIngress:
+    allowExternalNameServices: true
+    allowEmptyServices: true
+logs:
+  general:
+    format: json
+  access:
+    enabled: true
+    format: json
+    fields:
+      headers:
+        defaultmode: keep
+        names:
+          Authorization: redact
+metrics:
+  prometheus:
+    addRoutersLabels: true
+  otlp:
+    # enabled: true
+    addRoutersLabels: true
+# tracing:
+#   addInternals: true
+  # otlp:
+  #   enabled: true
+tlsStore:
+  default:
+    defaultCertificate:
+      secretName: default-self-tls
+globalArguments: []
+resources:
+  requests:
+    cpu: 100m
+    memory: 150Mi
+  limits:
+    # cpu: 300m
+    memory: 150Mi
+ports:
+  web:
+    forwardedHeaders:
+      insecure: true
+    redirectTo:
+      port: websecure
+  websecure:
+    forwardedHeaders:
+      insecure: true
+volumes:
+  - name:  encryption-secret
+    mountPath:  /oidc/encryption
+    type: secret
+  - name:  clients-secrets
+    mountPath:  /oidc/clients
+    type: secret

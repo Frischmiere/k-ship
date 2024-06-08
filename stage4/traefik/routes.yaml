@@ -1,0 +1,58 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: auth0-basic-dashboard
+spec:
+  plugin:
+    traefikoidc:
+      contextPath: /dashboard
+      encryptionSecretFile: /oidc/encryption/encryption_secret.json
+      idps:
+        - name: default
+          providerUrl: "https://dev-nzee4dwlqvyvcqb0.us.auth0.com/"
+          postLogoutUrl: "https://127.0.0.1.nip.io/dashboard/"
+          clientSecretFile: /oidc/auth0/auth0_client_secret.json
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dashboard
+spec:
+  routes:
+    - match: PathPrefix(`/dashboard/`)
+      kind: Rule
+      services:
+        - name: api@internal
+          kind: TraefikService
+      middlewares:
+        - name: auth0-basic-dashboard
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: auth0-basic-api
+spec:
+  plugin:
+    traefikoidc:
+      contextPath: /api
+      encryptionSecretFile: /oidc/encryption/encryption_secret.json
+      idps:
+        - name: default
+          providerUrl: "https://dev-nzee4dwlqvyvcqb0.us.auth0.com/"
+          postLogoutUrl: "https://127.0.0.1.nip.io/api/"
+          clientSecretFile: /oidc/auth0/auth0_client_secret.json
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: api
+spec:
+  routes:
+    - match: PathPrefix(`/api/`)
+      kind: Rule
+      services:
+        - name: api@internal
+          kind: TraefikService
+      middlewares:
+        - name: auth0-basic-api

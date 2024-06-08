@@ -4,6 +4,8 @@ deployments:
   - include: stage2
   - barrier: true
   - include: stage3
+  - barrier: true
+  - include: stage4
 
 commonLabels:
   k-ship.target: {{ target.name }}

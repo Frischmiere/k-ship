@@ -1,10 +1,45 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: https-redirect
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: test-stripprefix
+spec:
+  stripPrefix:
+    prefixes:
+      - /klugui
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: klugui-insecure-redirect
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: PathPrefix(`/klugui`)
+      services:
+        - kind: Service
+          name: kluctl-webui
+          port: 8080
+      middlewares:
+        - name: https-redirect
+---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: klugui
 spec:
   entryPoints:
-    - web
     - websecure
   routes:
     - kind: Rule

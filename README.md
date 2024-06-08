@@ -18,52 +18,21 @@ All the essentials for a Kubernetes cluster.
 ## Notes:
  * Any file with `secret` in the name will be **ignored** by GIT.
 
-## Quick test:
+## Quick start:
+(uses [Rancher Desktop](https://rancherdesktop.io/))
+1. Create a cluster using [Rancher Desktop](https://rancherdesktop.io/) (minikube is also an option):
 ```shell
-minikube start --cpus=2 --memory=4g --disk-size=20g --container-runtime=cri-o --nodes=3
-kluctl deploy -t local -y --prune
+./1-rancher-cluster.sh
 ```
-On a fresh deploy, there is occasionally some error: re-execute the deploy.
-
-#### Kluctl Webui:
-
-`admin`
+1. Sign-in to [Auth0](https://auth0.com/) and create both an Application and User.
+1. Create [stage3/traefik/clients-secrets.yaml](stage3/traefik/clients-secrets.yaml) with a `auth0_client_secret.json` secret containing the fields defined for the `idps.clientSecretFile` property used by the [OpenID Connect Client](https://plugins.traefik.io/plugins/65d784a546079255c9ffd1e4/oidc-client) plugin.
+1. Deploy the infrastructure:
 ```shell
-kubectl get secret/webui-secret -n kluctl-system -ojson | jq -r '.data."viewer-password"' | base64 -d
+./2-kluctl-deploy.sh
 ```
-`viewer`
+1. List some resources:
 ```shell
-kubectl get secret/webui-secret -n kluctl-system -ojson | jq -r '.data."admin-password"' | base64 -d
-```
-```shell
-kubectl port-forward svc/kluctl-webui 8080:8080 -n kluctl-system
-```
-[Kluctl Webui](http://localhost:8080)
-
-#### TRAEFIK_IP
-```shell
-minikube tunnel
-```
-_in annother terminal_
-```shell
-kubectl get svc -n traefik
-```
-
-#### Keycloak:
-```shell
-kubectl get secret -n keycloak keycloak-initial-admin -ojson | jq -r '.data.password' | base64 -d
-```
-https://TRAEFIK_IP/sso
-
-#### Traefik Dashboard:
-(trailing `/` is required)
-https://TRAEFIK_IP/dashboard/
-
-#### Destroy Cluster:
-```shell
-kluctl delete -y -t local
-# or just
-minikube delete
+./3-get-ingress.sh
 ```
 
 ## Components:
@@ -72,6 +41,17 @@ minikube delete
 https://kluctl.io/
 
 GitOps.  It is GitOps-focused, easy to debug faulty deploys, and manages projects well.
+
+#### Kluctl Webui:
+⚠️ Temporarily disabled as [Kluctl-Webgui does not work correctly within a path context](https://github.com/kluctl/kluctl/issues/1078).  Instead [run it locally](https://kluctl.io/docs/webui/running-locally/).
+```shell
+# admin
+kubectl get secret/webui-secret -n kluctl-system -ojson | jq -r '.data."viewer-password"' | base64 -d
+# viewer
+kubectl get secret/webui-secret -n kluctl-system -ojson | jq -r '.data."admin-password"' | base64 -d
+kubectl port-forward svc/kluctl-webui 8080:8080 -n kluctl-system
+```
+[Kluctl Webui](http://localhost:8080)
 
 ### Cert Manager
 https://cert-manager.io/
@@ -98,27 +78,20 @@ kubectl create secret generic SECRET_NAME --namespace=NAMESPACE --dry-run=client
 kubeseal --cert stage2/sealed-secrets/tls.cert -f PATH/TO/RELEVANT/RESOURCES/MY-secret.yaml -w PATH/TO/RELEVANT/RESOURCES/MY-sealed.yaml
 ```
 
-### Kubegres
-https://www.kubegres.io/
-
-For Keycloak.
-
-Postgres operator for creating a replicated data cluster to back Keycloak.  There are a few operators, but this one is simple and worked without headache.
-
-### Keycloak
-https://www.keycloak.org/
-
-Identity provider.  The operator facilitates `realm` imports through a `CRD` for managing the realm purely through GitOps.
-
 ### Traefik Proxy
 https://traefik.io/traefik/
 
-An API Gateway.  This was selected because, of the open-source options, it provides the best API management, API authentication, and API observability combination; although, it is missing the feature to authorize access to APIs by role/claims.  Other contenders were KrankenD (oss) and Tyk, but each open-source option was lacking in one aspect or another.  KrakenD (oss) was lacking in API management, and Tyk was not connecting to Keycloak.  Traefik Enterprise has the ability to [authorize on claims](https://doc.traefik.io/traefik-enterprise/middlewares/oidc/#claims).
+An API Gateway.  This was selected because, of the open-source options, it provides the best API management, API authentication, and API observability combination; although, it is missing the feature to authorize access to APIs by role/claims.
 
-### Prometheus?
+Some plugins were added to fill the gaps of the OSS version:
+* https://plugins.traefik.io/plugins/6613338ea28c508f411a44d5/traefik-oidc
+* https://plugins.traefik.io/plugins/64e78597f55a32789ebfbd82/dynamic-jwt-validation-middleware
+* https://plugins.traefik.io/plugins/628c9f0bffc0cd18356a97b6/path-auth
+
+### Prometheus? Mimir? Grafana? Loki? Tempo? Alloy? Pyroscope? Beyla?
 todo
 
-### Kuma?
+### Kuma? Cilium?
 todo
 
 ### others?

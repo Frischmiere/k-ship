@@ -1,0 +1,15 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: encryption-secret
+  namespace: traefik
+spec:
+  encryptedData:
+    encryption_secret.json: AgBdDnxQ2p0bE2387ZaVPHupvZqu2kR+nzQRWxLHD/tjUGSrJo4ZdxFYuwpfe00Yncxc1tjeG5Cla2BW31DLNpNyR8qqirkOtycvlK6S1zkafjEou0NFyrbj/gW/vKHOup6l5LbJSCE5KWROkul5kLL05XaMd8A6Iv/aD2Jr1iQnvKIW9LeqKhRDoXyyRWZb2gR7PVR6eLDtx0k6ePwl4CodZrr06Kz7leH8CCiqPPQzB8fuD5aBT8/0bgHVyAQoTRSGMViEogjSCARSe4JjHnqgyLP4yIetz7ihCG9wcJMAsa5Y9J9Z4rdJf+DjGTEOczjC66F57oiUdM4fgU3yelpOlZ5k5x88O7YN34uF677S2KASeOUbEWLjE4Xp836cN1zVg/4WBlhmbJkB1AA54kkI6kgfBh0+2VuDqYfYKyRNpNy01vh7fuTADdWRJZM+Caxlepk2WrgEYMYywHUJ8PYL2GxKe2n0/G8JS8khsLBz7cJzj8JQI6bWRzjYwIndfgFw/bycaVS9aIfxrPs8Qq8vZhV1QdmalA0woJiTmCOJViUrK1GrMoavVkBSgVutr4TYpwkUS6vw0NK4fEQPwFG4GvFn+AKBIeXqFt9pLV4FzChOKFb7vpHKkR7i5LEg+lLby2Eu4CRb4eTOkykvF2J8PBtzgW5S3J1mMgny1Bdf9m/JSCmE8YKWbWaWfhKrTJVi92fsggDg4mqJ1WPARdqYC+Na+Xg00jH3/nnFuqIXU3A8HH05UObNU3RoS9LMAxY3u+3Pew==
+  template:
+    metadata:
+      creationTimestamp: null
+      name: encryption-secret
+      namespace: traefik

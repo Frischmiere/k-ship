@@ -7,7 +7,7 @@ resources:
     cpu: 20m
     memory: 100Mi
   limits:
-    cpu: 20m
+    # cpu: 50m
     memory: 100Mi
 metrics:
   serviceMonitor:

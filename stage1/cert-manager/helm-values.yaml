@@ -7,25 +7,22 @@ extraArgs:
   - --logging-format=json
 resources:
   requests:
-    cpu: 10m
-    memory: 32Mi
+    cpu: 20m
+    memory: 128Mi
   limits:
-    cpu: 10m
-    memory: 32Mi
+    # cpu: 100m
+    memory: 128Mi
 prometheus:
-  servicemonitor:
+  podmonitor:
     enabled: true
-    honorLabels: true
-    namespace: monitoring
-    prometheusInstance: k8s
 ingressShim:
   resources:
     requests:
-      cpu: 10m
-      memory: 32Mi
+      cpu: 20m
+      memory: 64Mi
     limits:
-      cpu: 10m
-      memory: 32Mi
+      # cpu: 20m
+      memory: 64Mi
 webhook:
   extraArgs:
     - --logging-format=json
@@ -34,7 +31,7 @@ webhook:
       cpu: 20m
       memory: 64Mi
     limits:
-      cpu: 20m
+      # cpu: 20m
       memory: 64Mi
   enableServiceLinks: true
 cainjector:
@@ -45,7 +42,7 @@ cainjector:
       cpu: 20m
       memory: 64Mi
     limits:
-      cpu: 20m
+      # cpu: 100m
       memory: 64Mi
   enableServiceLinks: true
 startupaipcheck:
@@ -53,9 +50,9 @@ startupaipcheck:
     - --logging-format=json
   resources:
     requests:
-      cpu: 100m
-      memory: 320Mi
+      cpu: 20m
+      memory: 64Mi
     limits:
-      cpu: 100m
-      memory: 320Mi
+      # cpu: 20m
+      memory: 64Mi
   enableServiceLinks: true

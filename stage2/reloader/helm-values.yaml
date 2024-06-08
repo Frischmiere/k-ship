@@ -7,23 +7,23 @@ reloader:
   readOnlyRootFileSystem: true
   deployment:
     resources:
-      limits:
-        cpu: 20m
-        memory: 128Mi
       requests:
         cpu: 20m
-        memory: 128Mi
+        memory: 64Mi
+      limits:
+        # cpu: 50m
+        memory: 64Mi
   podMonitor:
     enabled: true
     namespace: monitoring
-    # metricRelabelings:
-    #   - action: keep
-    #     regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
-    #     sourceLabels: [__name__]
-    # relabelings:
-    #   - sourceLabels: [__meta_kubernetes_pod_node_name]
-    #     separator: ;
-    #     regex: ^(.*)$
-    #     targetLabel: nodename
-    #     replacement: $1
-    #     action: replace
+    metricRelabelings:
+      - action: keep
+        regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+        sourceLabels: [__name__]
+    relabelings:
+      - sourceLabels: [__meta_kubernetes_pod_node_name]
+        separator: ;
+        regex: ^(.*)$
+        targetLabel: nodename
+        replacement: $1
+        action: replace
