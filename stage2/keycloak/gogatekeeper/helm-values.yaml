@@ -85,7 +85,6 @@ config:
   resources:
     - uri: /dashboard/*
     - uri: /api/*
-    - uri: /whoami
     - uri: /public/*
       white-listed: true
     - uri: /favicon*

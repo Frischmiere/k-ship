@@ -6,7 +6,7 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: PathPrefix(`/oidc/`)
+      match: PathPrefix(`/oidc`)
       services:
         - kind: Service
           name: keycloak-service

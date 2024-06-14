@@ -4,15 +4,13 @@ deployments:
       subDir: install/controller
       ref:
         tag: v2.24.1
-  
-  # entirely to avoid a dumb error on a fresh deploy
-  # - path: 1-kluctl-system
-  # ⚠️ Temporarily disabled as [Kluctl-Webgui does not work correctly within a path context](https://github.com/kluctl/kluctl/issues/1078).
-  # - git:
-  #     url: https://github.com/kluctl/kluctl.git
-  #     subDir: install/webui
-  #     ref:
-  #       tag: v2.24.1
 
   - path: gateway-api-crds
   - path: monitoring
+
+  # ⚠️ [Kluctl-Webgui does not work correctly within a path context](https://github.com/kluctl/kluctl/issues/1078).
+  - git:
+      url: https://github.com/kluctl/kluctl.git
+      subDir: install/webui
+      ref:
+        tag: v2.24.1

@@ -13,21 +13,7 @@ metadata:
   name: dashboard
 spec:
   routes:
-    - match: PathPrefix(`/dashboard/`)
-      kind: Rule
-      services:
-        - name: api@internal
-          kind: TraefikService
-      middlewares:
-        - name: auth-traefik-dashboard
----
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
-  name: api
-spec:
-  routes:
-    - match: PathPrefix(`/api/`)
+    - match: PathPrefix(`/dashboard`) || PathPrefix(`/api`)
       kind: Rule
       services:
         - name: api@internal
