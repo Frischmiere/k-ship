@@ -68,7 +68,7 @@ extraEnvVars:
 config:
   # -- Setting this enables the prometheus metrics collector at `/oauth/metrics`
   enable-metrics: true
-  discovery-url: https://example.io/oidc/realms/internal
+  discovery-url: https://oidc.example.io/realms/internal
   # do to self-signed certs
   skip-openid-provider-tls-verify: true
   enable-encrypted-token: true
@@ -82,9 +82,8 @@ config:
   enable-refresh-tokens: true
   preserve-host: true
   enable-default-deny: true
+  enable-logout-redirect: true
   resources:
-    - uri: /dashboard/*
-    - uri: /api/*
     - uri: /public/*
       white-listed: true
     - uri: /favicon*

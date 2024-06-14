@@ -1,2 +1,29 @@
 deployments:
+  - path: default
+  - path: keycloak
+
+  - git:
+      url: https://github.com/kluctl/kluctl.git
+      subDir: install/webui
+      ref:
+        tag: v2.24.1
+    # vars:
+    #   - values:
+    #       args:
+    #         webui_args:
+    #           - --auth-oidc-issuer-url=http://oidc.example.io/realms/internal
+    #           - --auth-oidc-client-id=gatekeeper
+    #           - --auth-oidc-scope=openid
+    #           - --auth-oidc-scope=profile
+    #           - --auth-oidc-scope=email
+    #           - --auth-oidc-redirect-url=https://kluctl.example.io/auth/callback
+    #           - --auth-oidc-group-claim=groups
+    #           - --auth-oidc-admins-group=/kluctl-webui-admin
+    #           - --auth-oidc-viewers-group=/kluctl-webui-viewer
+    #           - --auth-oidc-client-secret-name=gatekeeper-client
+    #           - --auth-oidc-client-secret-key=GATEKEEPER_CLIENT_SECRET
+    #           - --auth-secret-key=GATEKEEPER_ENCRYPTION_KEY
+    #           - --auth-secret-name=gatekeeper-client
+
+  - path: kluctl-system
   - path: traefik

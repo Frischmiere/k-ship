@@ -3,5 +3,5 @@ kind: "BasicAuth"
 metadata:
   name: "keycloak-initial-admin"
 spec:
-  username: administrator
+  username: master
   forceRegenerate: false

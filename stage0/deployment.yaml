@@ -7,10 +7,3 @@ deployments:
 
   - path: gateway-api-crds
   - path: monitoring
-
-  # ⚠️ [Kluctl-Webgui does not work correctly within a path context](https://github.com/kluctl/kluctl/issues/1078).
-  - git:
-      url: https://github.com/kluctl/kluctl.git
-      subDir: install/webui
-      ref:
-        tag: v2.24.1

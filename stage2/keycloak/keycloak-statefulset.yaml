@@ -71,8 +71,6 @@ spec:
               value: "true"
             - name: KC_PROXY_HEADERS
               value: xforwarded
-            - name: KC_HTTP_RELATIVE_PATH
-              value: /oidc
             - name: KEYCLOAK_ADMIN
               valueFrom:
                 secretKeyRef:
@@ -95,7 +93,7 @@ spec:
           livenessProbe:
             failureThreshold: 3
             httpGet:
-              path: /oidc/health/live
+              path: /health/live
               port: 8080
               scheme: HTTP
             periodSeconds: 10
@@ -112,7 +110,7 @@ spec:
           readinessProbe:
             failureThreshold: 3
             httpGet:
-              path: /oidc/health/ready
+              path: /health/ready
               port: 8080
               scheme: HTTP
             periodSeconds: 10
@@ -127,7 +125,7 @@ spec:
           startupProbe:
             failureThreshold: 600
             httpGet:
-              path: /oidc/health/started
+              path: /health/started
               port: 8080
               scheme: HTTP
             periodSeconds: 1

@@ -2,7 +2,7 @@
 
 kluctl deploy -t local -y --prune
 
-kubectl wait --for=jsonpath='{.status.loadBalancer.ingress}' service/traefik -n traefik
+kubectl wait --for=jsonpath='{.status.loadBalancer.ingress[0].ip}' service/traefik -n traefik
 
 traefik_external_ip=$(kubectl get svc/traefik -n traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 traefik_cluster_ip=$(kubectl get svc/traefik -n traefik -o jsonpath='{.spec.clusterIP}')
@@ -22,7 +22,7 @@ data:
   example.server: |
     example.hosts example.io {
         hosts {
-            ${TRAEFIK_EXTERNAL_IP} example.io
+            ${TRAEFIK_EXTERNAL_IP} example.io kluctl.example.io oidc.example.io
             fallthrough
         }
     }

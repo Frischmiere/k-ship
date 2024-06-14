@@ -1,4 +1,0 @@
-deployments:
-  - path: default
-  - path: keycloak
-  - path: traefik

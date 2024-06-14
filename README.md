@@ -28,7 +28,7 @@ All the essentials for a Kubernetes cluster.
     ```shell
     ./2-rancher-kluctl-deploy.sh
     ```
-1. Add 'example.io' to the 'localhost' line in your '/etc/hosts'.
+1. Add 'example.io kluctl.example.io oidc.example.io' to the 'localhost' line in your '/etc/hosts'.
 1. Get some resources:
     ```shell
     ./3-get-ingress.sh
@@ -40,17 +40,6 @@ All the essentials for a Kubernetes cluster.
 https://kluctl.io/
 
 GitOps.  It is GitOps-focused, easy to debug faulty deploys, and manages projects well.
-
-#### Kluctl Webui:
-⚠️ Temporarily disabled as [Kluctl-Webgui does not work correctly within a path context](https://github.com/kluctl/kluctl/issues/1078).  Instead [run it locally](https://kluctl.io/docs/webui/running-locally/).
-```shell
-# admin
-kubectl get secret/webui-secret -n kluctl-system -ojson | jq -r '.data."viewer-password"' | base64 -d
-# viewer
-kubectl get secret/webui-secret -n kluctl-system -ojson | jq -r '.data."admin-password"' | base64 -d
-kubectl port-forward svc/kluctl-webui 8080:8080 -n kluctl-system
-```
-[Kluctl Webui](http://localhost:8080)
 
 ### Cert Manager
 https://cert-manager.io/
