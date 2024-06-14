@@ -1,14 +1,13 @@
 api:
   dashboard: true
-  insecure: true
 experimental:
   plugins:
-    # keycloakopenid:
-    #   moduleName: "github.com/Gwojda/keycloakopenid"
-    #   version: "v0.1.35"
     traefikoidc:
       moduleName: "github.com/wdonne/traefikoidc"
       version: "v1.2.0"
+    keycloakopenid:
+      moduleName: "github.com/Gwojda/keycloakopenid"
+      version: "v0.1.35"
     jwt-middleware:
       moduleName: "github.com/Brainnwave/jwt-middleware"
       version: "v1.2.1"
@@ -64,15 +63,11 @@ ports:
   web:
     forwardedHeaders:
       insecure: true
-    redirectTo:
-      port: websecure
+    # redirectTo:
+    #   port: websecure
   websecure:
     forwardedHeaders:
       insecure: true
-volumes:
-  - name:  encryption-secret
-    mountPath:  /oidc/encryption
-    type: secret
-  - name:  clients-secrets
-    mountPath:  /oidc/clients
-    type: secret
+envFrom:
+  - secretRef:
+      name: gatekeeper-client

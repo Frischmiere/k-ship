@@ -3,7 +3,7 @@ discriminator: "k-ship-{{ target.name }}"
 targets:
   - name: local
     args:
-      environment: local
+      environment: rancher-desktop
 
 args:
   - name: environment

@@ -1,0 +1,7 @@
+apiVersion: "secretgenerator.mittwald.de/v1alpha1"
+kind: "BasicAuth"
+metadata:
+  name: "kcdb-user"
+spec:
+  username: "keycloak"
+  forceRegenerate: false

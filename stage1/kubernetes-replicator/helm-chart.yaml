@@ -1,0 +1,6 @@
+helmChart:
+  chartName: kubernetes-replicator
+  chartVersion: 2.9.2
+  namespace: kubernetes-replicator
+  releaseName: kubernetes-replicator
+  repo: https://helm.mittwald.de

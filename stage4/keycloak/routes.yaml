@@ -1,0 +1,26 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: keycloak
+spec:
+  routes:
+    - kind: Rule
+      match: PathPrefix(`/oidc/`)
+      services:
+        - kind: Service
+          name: keycloak-service
+          port: http
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: gogatekeeper
+spec:
+  routes:
+    - kind: Rule
+      match: PathPrefix(`/oauth`)
+      services:
+        - kind: Service
+          name: gogatekeeper
+          port: proxy

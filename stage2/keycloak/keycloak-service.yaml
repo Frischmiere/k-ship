@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: keycloak
+    app.kubernetes.io/instance: keycloak
+  name: keycloak-service
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: keycloak
+    app.kubernetes.io/instance: keycloak

@@ -19,21 +19,20 @@ All the essentials for a Kubernetes cluster.
  * Any file with `secret` in the name will be **ignored** by GIT.
 
 ## Quick start:
-(uses [Rancher Desktop](https://rancherdesktop.io/))
-1. Create a cluster using [Rancher Desktop](https://rancherdesktop.io/) (minikube is also an option):
-```shell
-./1-rancher-cluster.sh
-```
-1. Sign-in to [Auth0](https://auth0.com/) and create both an Application and User.
-1. Create [stage3/traefik/clients-secrets.yaml](stage3/traefik/clients-secrets.yaml) with a `auth0_client_secret.json` secret containing the fields defined for the `idps.clientSecretFile` property used by the [OpenID Connect Client](https://plugins.traefik.io/plugins/65d784a546079255c9ffd1e4/oidc-client) plugin.
+1. Create a cluster using [Rancher Desktop](https://rancherdesktop.io/):
+    ```shell
+    ./1-rancher-cluster.sh
+    ```
+    The shell may be safely cancelled (Ctrl-C).
 1. Deploy the infrastructure:
-```shell
-./2-kluctl-deploy.sh
-```
-1. List some resources:
-```shell
-./3-get-ingress.sh
-```
+    ```shell
+    ./2-kluctl-deploy.sh
+    ```
+1. Add 'example.io' to the 'localhost' line in your '/etc/hosts'.
+1. Get some resources:
+    ```shell
+    ./3-get-ingress.sh
+    ```
 
 ## Components:
 
@@ -59,6 +58,16 @@ https://cert-manager.io/
 For managing certificates.
 A self-signed cert is created as well.
 
+### Kubernetes Secret Generator
+https://github.com/mittwald/kubernetes-secret-generator
+
+For when you want a secret, but you don't need to know what it is.
+
+### Kubernetes Replicator
+https://github.com/mittwald/kubernetes-replicator
+
+To keep your secrets and configmaps in sync across namespaces.
+
 ### Reloader
 https://docs.stakater.com/reloader/index.html
 
@@ -78,15 +87,27 @@ kubectl create secret generic SECRET_NAME --namespace=NAMESPACE --dry-run=client
 kubeseal --cert stage2/sealed-secrets/tls.cert -f PATH/TO/RELEVANT/RESOURCES/MY-secret.yaml -w PATH/TO/RELEVANT/RESOURCES/MY-sealed.yaml
 ```
 
+### Kubegres
+https://www.kubegres.io/
+
+For Keycloak.
+
+Postgres operator for creating a replicated data cluster to back Keycloak.  There are a few operators, but this one is simple and worked without headache.
+
+### Keycloak
+https://www.keycloak.org/
+
+Good, well known, identity provider.
+
+### Gatekeeper
+https://gogatekeeper.github.io/
+
+ForwardAuth provider for Traefik to Keycloak.  Allows for per-path restrictions by roles and groups.
+
 ### Traefik Proxy
 https://traefik.io/traefik/
 
-An API Gateway.  This was selected because, of the open-source options, it provides the best API management, API authentication, and API observability combination; although, it is missing the feature to authorize access to APIs by role/claims.
-
-Some plugins were added to fill the gaps of the OSS version:
-* https://plugins.traefik.io/plugins/6613338ea28c508f411a44d5/traefik-oidc
-* https://plugins.traefik.io/plugins/64e78597f55a32789ebfbd82/dynamic-jwt-validation-middleware
-* https://plugins.traefik.io/plugins/628c9f0bffc0cd18356a97b6/path-auth
+An API Gateway.  This was selected because, of the open-source options, it provides the best API management, API authentication, and API observability combination; although, it is missing the feature to authorize access to APIs by role/claims.  Other contenders were KrankenD (oss) and Tyk, but each open-source option was lacking in one aspect or another.  KrakenD (oss) was lacking in API management, and Tyk was not connecting to Keycloak.  Traefik Enterprise has the ability to [authorize on claims](https://doc.traefik.io/traefik-enterprise/middlewares/oidc/#claims).
 
 ### Prometheus? Mimir? Grafana? Loki? Tempo? Alloy? Pyroscope? Beyla?
 todo

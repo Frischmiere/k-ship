@@ -16,7 +16,8 @@ spec:
     - client auth
   # At least one of a DNS Name, URI, IP address or otherName is required.
   dnsNames:
-    - "*.nip.io"
+    - "example.io"
+    - "*.example.io"
     - "localhost"
     - "*.localhost"
   ipAddresses:

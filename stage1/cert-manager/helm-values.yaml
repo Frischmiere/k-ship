@@ -1,8 +1,9 @@
 global:
   leaderElection:
     namespace: cert-manager
+crds:
+  enabled: true
 enableCertificateOwnerRef: true
-enableServiceLinks: true
 extraArgs:
   - --logging-format=json
 resources:
@@ -13,7 +14,7 @@ resources:
     # cpu: 100m
     memory: 128Mi
 prometheus:
-  podmonitor:
+  servicemonitor:
     enabled: true
 ingressShim:
   resources:
@@ -33,7 +34,6 @@ webhook:
     limits:
       # cpu: 20m
       memory: 64Mi
-  enableServiceLinks: true
 cainjector:
   extraArgs:
     - --logging-format=json
@@ -44,7 +44,6 @@ cainjector:
     limits:
       # cpu: 100m
       memory: 64Mi
-  enableServiceLinks: true
 startupaipcheck:
   extraArgs:
     - --logging-format=json
@@ -55,4 +54,3 @@ startupaipcheck:
     limits:
       # cpu: 20m
       memory: 64Mi
-  enableServiceLinks: true

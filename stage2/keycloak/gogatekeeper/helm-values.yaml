@@ -1,0 +1,98 @@
+# -- Enable automounting service account credentials, please be aware that there is more secure way of exposing serviceAccountToken in pods with projected volumes
+automountServiceAccountToken: true
+
+# -- Enables pod-level security attributes and common container settings
+# @default -- See [values.yaml](values.yaml)
+podSecurityContext:
+  enabled: true
+  fsGroup: 2000
+
+# -- Enables container-level security attributes and common container settings
+# @default -- See [values.yaml](values.yaml)
+containerSecurityContext:
+  enabled: true
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+
+## CPU and memory resource requests/limits
+resources:
+  # -- Minimum amount of compute resources required
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  # -- Maximum amount of compute resources allowed
+  limits:
+    # cpu: 500m
+    memory: 128Mi
+
+# -- Liveness Probe settings
+# @default -- See [values.yaml](values.yaml)
+livenessProbe:
+  enabled: true
+
+metrics:
+  # -- Add scrape Annotations to the pods for Prometheus (when not using PrometheusOperator)
+  addPrometheusScrapeAnnotation: true
+  serviceMonitor:
+    # -- Create ServiceMonitor resource for scraping metrics using PrometheusOperator
+    enabled: false
+    # -- Specify if the ServiceMonitor will be deployed into a different namespace (blank deploys into same namespace as chart)
+    namespace: monitoring
+    # -- Interval at which metrics should be scraped
+    interval: 30s
+
+# -- Any extra environment variables you would like to pass on to the pod
+extraEnvVars:
+  - name: PROXY_CLIENT_ID
+    valueFrom:
+      secretKeyRef:
+        name: gatekeeper-client
+        key: GATEKEEPER_CLIENT_ID
+  - name: PROXY_CLIENT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: gatekeeper-client
+        key: GATEKEEPER_CLIENT_SECRET
+  - name: PROXY_ENCRYPTION_KEY
+    valueFrom:
+      secretKeyRef:
+        name: gatekeeper-encryption
+        key: encryption-key
+
+# -- Gatekeeper configuration options, see [Configuration options](#configuration-options) section
+# @default -- See [values.yaml](values.yaml)
+config:
+  # -- Setting this enables the prometheus metrics collector at `/oauth/metrics`
+  enable-metrics: true
+  discovery-url: https://example.io/oidc/realms/internal
+  # do to self-signed certs
+  skip-openid-provider-tls-verify: true
+  enable-encrypted-token: true
+  enable-security-filter: true
+  no-proxy: true
+  no-redirects: false
+  enabled-logging: true
+  enable-json-logging: true
+  enable-request-id: true
+  verbose: true
+  enable-refresh-tokens: true
+  preserve-host: true
+  enable-default-deny: true
+  resources:
+    - uri: /dashboard/*
+    - uri: /api/*
+    - uri: /whoami
+    - uri: /public/*
+      white-listed: true
+    - uri: /favicon*
+      white-listed: true
+    - uri: /css/*
+      white-listed: true
+    - uri: /img/*
+      white-listed: true
+    - uri: /js/*
+      white-listed: true

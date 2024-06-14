@@ -1,4 +1,6 @@
 deployments:
+  - include: stage0
+  - barrier: true
   - include: stage1
   - barrier: true
   - include: stage2

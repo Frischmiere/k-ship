@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gatekeeper-client
+  annotations:
+    secret-generator.v1.mittwald.de/autogenerate: "GATEKEEPER_CLIENT_SECRET,GATEKEEPER_ENCRYPTION_KEY"
+    replicator.v1.mittwald.de/replicate-to: "traefik"
+data:
+  GATEKEEPER_CLIENT_ID: Z2F0ZWtlZXBlcg==

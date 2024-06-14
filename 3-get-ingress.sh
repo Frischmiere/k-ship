@@ -1,8 +1,12 @@
 #!/bin/bash
 
 echo 
-kubectl get svc/traefik -n traefik
+echo "Add 'example.io' to the 'localhost' line in your '/etc/hosts'".
 echo 
-echo Traefik dashboard: https://127.0.0.1.nip.io/dashboard/
-echo WhoAmI: https://127.0.0.1.nip.io/whoami
+echo Keycloak: https://example.io/oidc/
+echo "Keycloak 'administrator' password: $(kubectl get secret/keycloak-initial-admin -n keycloak -o jsonpath='{.data.password}' | base64 -d)"
+echo 
+echo Traefik: https://example.io/dashboard/
+echo 
+echo Who-Am-I: https://example.io/whoami
 echo 

@@ -1,7 +1,6 @@
 helmChart:
   chartName: cert-manager
-  chartVersion: v1.14.5
+  chartVersion: v1.15.0
   namespace: cert-manager
   releaseName: cert-manager
   repo: https://charts.jetstack.io
-  # update version in kustomization.yaml
