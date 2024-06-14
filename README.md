@@ -26,7 +26,7 @@ All the essentials for a Kubernetes cluster.
     The shell may be safely cancelled (Ctrl-C).
 1. Deploy the infrastructure:
     ```shell
-    ./2-kluctl-deploy.sh
+    ./2-rancher-kluctl-deploy.sh
     ```
 1. Add 'example.io' to the 'localhost' line in your '/etc/hosts'.
 1. Get some resources:
