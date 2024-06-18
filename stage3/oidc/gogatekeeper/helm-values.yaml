@@ -1,0 +1,68 @@
+automountServiceAccountToken: true
+podSecurityContext:
+  enabled: true
+  fsGroup: 2000
+containerSecurityContext:
+  enabled: true
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+resources:
+  requests:
+    cpu: 200m
+    memory: 128Mi
+  limits:
+    memory: 128Mi
+livenessProbe:
+  enabled: true
+metrics:
+  serviceMonitor:
+    enabled: true
+extraEnvVars:
+  - name: PROXY_CLIENT_ID
+    valueFrom:
+      secretKeyRef:
+        name: gatekeeper-client
+        key: GATEKEEPER_CLIENT_ID
+  - name: PROXY_CLIENT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: gatekeeper-client
+        key: GATEKEEPER_CLIENT_SECRET
+  - name: PROXY_ENCRYPTION_KEY
+    valueFrom:
+      secretKeyRef:
+        name: gatekeeper-encryption
+        key: encryption-key
+config:
+  # -- Setting this enables the prometheus metrics collector at `/oauth/metrics`
+  enable-metrics: true
+  discovery-url: https://oidc.example.io/realms/internal
+  # do to self-signed certs
+  skip-openid-provider-tls-verify: true
+  enable-encrypted-token: true
+  enable-security-filter: true
+  no-proxy: true
+  no-redirects: false
+  enabled-logging: true
+  enable-json-logging: true
+  enable-request-id: true
+  verbose: true
+  enable-refresh-tokens: true
+  preserve-host: true
+  enable-default-deny: true
+  enable-logout-redirect: true
+  resources:
+    - uri: /public/*
+      white-listed: true
+    - uri: /favicon*
+      white-listed: true
+    - uri: /css/*
+      white-listed: true
+    - uri: /img/*
+      white-listed: true
+    - uri: /js/*
+      white-listed: true

@@ -1,6 +1,0 @@
-helmChart:
-  chartName: gatekeeper
-  chartVersion: 0.1.48
-  namespace: keycloak
-  releaseName: gogatekeeper
-  repo: https://gogatekeeper.github.io/helm-gogatekeeper

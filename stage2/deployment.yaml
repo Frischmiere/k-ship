@@ -1,6 +1,6 @@
 deployments:
   - path: cert-manager
-  - path: keycloak
+  - path: oidc
   - path: reloader
   - path: sealed-secrets
   - path: traefik

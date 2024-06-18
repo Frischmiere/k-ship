@@ -5,7 +5,7 @@ metadata:
   name: auth-traefik-dashboard
 spec:
   forwardAuth:
-    address: http://gogatekeeper.keycloak:3000/
+    address: http://gogatekeeper.oidc:3000/
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
@@ -13,10 +13,34 @@ metadata:
   name: dashboard
 spec:
   routes:
-    - match: Host(`example.io`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+    - match: Host(`traefik.example.io`) && (PathPrefix(`/api/`) || PathPrefix(`/dashboard/`))
       kind: Rule
       services:
         - name: api@internal
           kind: TraefikService
       middlewares:
         - name: auth-traefik-dashboard
+# Gatekeeper looses the context path with the subdomain
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-traefik-dashboard
+spec:
+  redirectRegex:
+    regex: ^http[s]?://traefik.example.io/$
+    replacement: https://traefik.example.io/dashboard/
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dashboard-root
+spec:
+  routes:
+    - match: Host(`traefik.example.io`) && Path(`/`)
+      kind: Rule
+      services:
+        - name: api@internal
+          kind: TraefikService
+      middlewares:
+        - name: redirect-traefik-dashboard

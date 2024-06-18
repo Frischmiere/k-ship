@@ -1,20 +1,6 @@
 api:
   dashboard: true
-  # insecure: true
 experimental:
-  plugins:
-    traefikoidc:
-      moduleName: "github.com/wdonne/traefikoidc"
-      version: "v1.2.0"
-    keycloakopenid:
-      moduleName: "github.com/Gwojda/keycloakopenid"
-      version: "v0.1.35"
-    jwt-middleware:
-      moduleName: "github.com/Brainnwave/jwt-middleware"
-      version: "v1.2.1"
-    pathauth:
-      moduleName: "github.com/aarlint/pathauth"
-      version: "v0.2.3"
   kubernetesGateway:
     enabled: true
 ingressRoute:
@@ -56,10 +42,9 @@ globalArguments: []
 resources:
   requests:
     cpu: 100m
-    memory: 150Mi
+    memory: 200Mi
   limits:
-    # cpu: 300m
-    memory: 150Mi
+    memory: 200Mi
 ports:
   web:
     forwardedHeaders:

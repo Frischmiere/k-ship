@@ -18,6 +18,12 @@ spec:
       containers:
         - name: whoami
           image: traefik/whoami
+          resources:
+            requests:
+              cpu: 1m
+              memory: 10Mi
+            limits:
+              memory: 10Mi
           ports:
             - name: web
               containerPort: 80
@@ -40,7 +46,7 @@ spec:
 #   name: auth-whoami
 # spec:
 #   forwardAuth:
-#     address: http://gogatekeeper.keycloak:3000/
+#     address: http://gogatekeeper.oidc:3000/
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute

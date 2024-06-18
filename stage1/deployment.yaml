@@ -3,4 +3,9 @@ deployments:
   - path: kubegres-system
   - path: kubernetes-replicator
   - path: kubernetes-secret-generator
+  # - path: monitoring/dashboards-rules/dashboards-opencost
+  # - path: monitoring/dashboards-rules/dashboards-1.14
+  # - path: monitoring/dashboards-rules/rules-1.14
+  - path: monitoring
+  - path: oidc
   - path: traefik

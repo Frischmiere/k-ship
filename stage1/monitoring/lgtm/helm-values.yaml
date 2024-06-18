@@ -1,0 +1,234 @@
+grafana:
+  sidecar:
+    skipTlsVerify: true
+    # resources:
+    #   requests:
+    #     cpu: 50m
+    #     memory: 64Mi
+    #   limits:
+    #     memory: 64Mi
+    alerts:
+      enabled: true
+      searchNamespace: ALL
+    dashboards:
+      enabled: true
+      searchNamespace: ALL
+      resource: configmap
+    plugins:
+      enabled: true
+      searchNamespace: ALL
+    notifiers:
+      enabled: true
+      searchNamespace: ALL
+loki:
+  ingester:
+    # resources:
+    #   requests:
+    #     cpu: 20m
+    #     memory: 512Mi
+    #   limits:
+    #     memory: 512Mi
+    affinity: ""
+  distributor:
+    # resources:
+    #   requests:
+    #     cpu: 20m
+    #     memory: 512Mi
+    #   limits:
+    #     memory: 512Mi
+    affinity: ""
+  querier:
+    # resources:
+      # requests:
+      #   cpu: 20m
+      #   memory: 128Mi
+      # limits:
+      #   memory: 128Mi
+    affinity: ""
+  query_frontend:
+    # resources:
+    #   requests:
+    #     cpu: 20m
+    #     memory: 128Mi
+    #   limits:
+    #     memory: 128Mi
+    affinity: ""
+  gateway:
+    # resources:
+    #   requests:
+    #     cpu: 20m
+    #     memory: 128Mi
+    #   limits:
+    #     memory: 128Mi
+    affinity: ""
+tempo:
+  server:
+    logFormat: json
+  # admin_api:
+  #   resources:
+  #     requests:
+  #       cpu: 10m
+  #       memory: 32Mi
+  #     limits:
+  #       memory: 32Mi
+  # ingester:
+  #   resources:
+  #     requests:
+  #       cpu: 20m
+  #       memory: 512Mi
+  #     limits:
+  #       memory: 512Mi
+  distributor:
+    # resources:
+    #   requests:
+    #     cpu: 20m
+    #     memory: 512Mi
+    #   limits:
+    #     memory: 512Mi
+    affinity: ""
+  # compactor:
+  #   resources:
+  #     requests:
+  #       cpu: 20m
+  #       memory: 512Mi
+  #     limits:
+  #       memory: 512Mi
+  querier:
+    # resources:
+    #   requests:
+    #     cpu: 20m
+    #     memory: 128Mi
+    #   limits:
+    #     memory: 128Mi
+    affinity: ""
+  query_frontend:
+    # resources:
+    #   requests:
+    #     cpu: 20m
+    #     memory: 128Mi
+    #   limits:
+    #     memory: 128Mi
+    affinity: ""
+  memcached:
+    # resources:
+    #   requests:
+    #     cpu: 20m
+    #     memory: 512Mi
+    #   limits:
+    #     memory: 512Mi
+    affinity: ""
+mimir:
+  metaMonitoring:
+    dashboards:
+      enabled: true
+    serviceMonitor:
+      enabled: true
+    prometheusRule:
+      enabled: true
+      mimirAlerts: true
+      mimirRules: true
+  # admin_api:
+  #   resources:
+  #     requests:
+  #       cpu: 10m
+  #       memory: 32Mi
+  #     limits:
+  #       memory: 32Mi
+  # alertmanager:
+  #   resources:
+  #     requests:
+  #       cpu: 20m
+  #       memory: 32Mi
+  #     limits:
+  #       memory: 32Mi
+  # compactor:
+  #   resources:
+  #     requests:
+  #       cpu: 20m
+  #       memory: 512Mi
+  #     limits:
+  #       memory: 512Mi
+  # distributor:
+  #   resources:
+  #     requests:
+  #       cpu: 20m
+  #       memory: 512Mi
+  #     limits:
+  #       memory: 512Mi
+  # ingester:
+  #   replicas: 1
+  #   zoneAwareReplication:
+  #     enabled: false
+  #   resources:
+  #     requests:
+  #       cpu: 20m
+  #       memory: 512Mi
+  #     limits:
+  #       memory: 512Mi
+  # overrides_exporter:
+  #   resources:
+  #     requests:
+  #       cpu: 20m
+  #       memory: 128Mi
+  #     limits:
+  #       memory: 128Mi
+  # querier:
+  #   replicas: 1
+  #   resources:
+  #     requests:
+  #       cpu: 20m
+  #       memory: 128Mi
+  #     limits:
+  #       memory: 128Mi
+  # query_frontend:
+  #   resources:
+  #     requests:
+  #       cpu: 20m
+  #       memory: 128Mi
+  #     limits:
+  #       memory: 128Mi
+  # query_scheduler:
+  #   replicas: 1
+  #   resources:
+  #     requests:
+  #       cpu: 20m
+  #       memory: 128Mi
+  #     limits:
+  #       memory: 128Mi
+  # ruler:
+  #   resources:
+  #     requests:
+  #       cpu: 20m
+  #       memory: 128Mi
+  #     limits:
+  #       memory: 128Mi
+  # store_gateway:
+  #   zoneAwareReplication:
+  #     enabled: false
+  #   resources:
+  #     requests:
+  #       cpu: 20m
+  #       memory: 512Mi
+  #     limits:
+  #       memory: 512Mi
+  # minio:
+  #   resources:
+  #     requests:
+  #       cpu: 20m
+  #       memory: 512Mi
+  #     limits:
+  #       memory: 512Mi
+  # nginx:
+  #   resources:
+  #     requests:
+  #       cpu: 20m
+  #       memory: 128Mi
+  #     limits:
+  #       memory: 128Mi
+  # rollout_operator:
+  #   resources:
+  #     requests:
+  #       cpu: 20m
+  #       memory: 128Mi
+  #     limits:
+#       memory: 128Mi

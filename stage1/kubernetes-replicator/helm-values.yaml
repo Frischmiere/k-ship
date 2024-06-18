@@ -11,7 +11,7 @@ securityContext:
   runAsUser: 1000
 resources:
   requests:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 10m
+    memory: 64Mi
   limits:
-    memory: 128Mi
+    memory: 64Mi

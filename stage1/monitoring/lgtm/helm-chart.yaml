@@ -1,0 +1,6 @@
+helmChart:
+  chartName: lgtm-distributed
+  chartVersion: 2.0.0
+  namespace: monitoring
+  releaseName: lgtm
+  repo: https://grafana.github.io/helm-charts

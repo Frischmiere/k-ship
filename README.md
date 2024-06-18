@@ -28,7 +28,7 @@ All the essentials for a Kubernetes cluster.
     ```shell
     ./2-rancher-kluctl-deploy.sh
     ```
-1. Add 'example.io kluctl.example.io oidc.example.io' to the 'localhost' line in your '/etc/hosts'.
+1. Add 'example.io kluctl.example.io oidc.example.io traefik.example.io grafana.example.io' to the 'localhost' line in your '/etc/hosts'.
 1. Get some resources:
     ```shell
     ./3-get-ingress.sh
@@ -98,7 +98,7 @@ https://traefik.io/traefik/
 
 An API Gateway.  This was selected because, of the open-source options, it provides the best API management, API authentication, and API observability combination; although, it is missing the feature to authorize access to APIs by role/claims.  Other contenders were KrankenD (oss) and Tyk, but each open-source option was lacking in one aspect or another.  KrakenD (oss) was lacking in API management, and Tyk was not connecting to Keycloak.  Traefik Enterprise has the ability to [authorize on claims](https://doc.traefik.io/traefik-enterprise/middlewares/oidc/#claims).
 
-### Prometheus? Mimir? Grafana? Loki? Tempo? Alloy? Pyroscope? Beyla?
+### Prometheus? Mimir? Grafana? Loki? Tempo? Alloy? Pyroscope? Beyla? Signoz?
 todo
 
 ### Kuma? Cilium?

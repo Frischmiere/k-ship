@@ -1,0 +1,82 @@
+cluster:
+  name: "{{ target.name }}-{{ args.environment }}"
+externalServices:
+  prometheus:
+    tenantID: "1"
+    host: http://lgtm-mimir-nginx
+    queryEndpoint: /prometheus
+    writeEndpoint: /api/v1/push
+    authMode: none
+  loki:
+    tenantID: "1"
+    host: http://lgtm-loki-gateway
+    # queryEndpoint: /loki/api/v1/query
+    # writeEndpoint: /loki/api/v1/tail
+    authMode: none
+  tempo:
+    tenantID: "1"
+    host: http://lgtm-tempo-query-frontend:3100
+    # searchEndpoint: /api/v1/search
+    authMode: none
+metrics:
+  scrapeInterval: 10s
+  apiserver:
+    enabled: true
+  kubeControllerManager:
+    enabled: true
+  kubeProxy:
+    enabled: true
+  kubeScheduler:
+    enabled: true
+  podLogsObjects:
+    enabled: true
+  cluster_events:
+    logFormat: json
+  journal:
+    enabled: true
+traces:
+  enabled: true
+# profiles:
+#   enabled: true
+receivers:
+  jaeger:
+    grpc:
+      enabled: true
+    thriftBinary:
+      enabled: true
+    thriftCompact:
+      enabled: true
+    thriftHttp:
+      enabled: true
+  zipkin:
+    enabled: true
+prometheus-operator-crds:
+  enabled: false
+alloy:
+  logging:
+    format: json
+alloy-events:
+  logging:
+    format: json
+alloy-logs:
+  logging:
+    format: json
+alloy-profiles:
+  logging:
+    format: json
+opencost:
+  opencost:
+    exporter:
+      defaultClusterId: "{{ target.name }}-{{ args.environment }}"
+    prometheus:
+      existingSecretName: ~
+      username_key: ~
+      password_key: ~
+      external:
+        url: http://lgtm-mimir-nginx
+      #   enabled: false
+      # internal:
+      #   enabled: true
+      #   serviceName: lgtm-mimir-nginx
+      #   namespaceName: monitoring
+      #   port: 80

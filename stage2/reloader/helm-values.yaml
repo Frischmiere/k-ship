@@ -8,14 +8,12 @@ reloader:
   deployment:
     resources:
       requests:
-        cpu: 20m
-        memory: 64Mi
+        cpu: 10m
+        memory: 100Mi
       limits:
-        # cpu: 50m
-        memory: 64Mi
+        memory: 100Mi
   podMonitor:
     enabled: true
-    namespace: monitoring
     metricRelabelings:
       - action: keep
         regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'

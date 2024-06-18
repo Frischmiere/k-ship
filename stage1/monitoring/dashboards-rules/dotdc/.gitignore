@@ -1,0 +1,4 @@
+# https://github.com/dotdc/grafana-dashboards-kubernetes.git
+/grafana-dashboards-kubernetes/*
+!/grafana-dashboards-kubernetes/kustomization.yaml
+!/grafana-dashboards-kubernetes/dashboards/

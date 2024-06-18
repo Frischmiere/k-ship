@@ -1,0 +1,43 @@
+---
+apiVersion: kubegres.reactive-tech.io/v1
+kind: Kubegres
+metadata:
+  name: kcpg
+spec:
+  replicas: 1
+  image: postgres:15
+  database:
+    size: 400Mi
+  customConfig: kcpg-init
+  resources:
+      requests:
+        cpu: 20m
+        memory: 128Mi
+      limits:
+        memory: 128Mi
+  env:
+    - name: PGPASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: postgres-passwords
+          key: postgres
+    - name: POSTGRES_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: postgres-passwords
+          key: postgres
+    - name: POSTGRES_REPLICATION_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: postgres-passwords
+          key: postgres-replication
+    - name: POSTGRES_KEYCLOAK_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: kcdb-user
+          key: username
+    - name: POSTGRES_KEYCLOAK_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: kcdb-user
+          key: password

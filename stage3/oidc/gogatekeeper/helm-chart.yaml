@@ -1,0 +1,6 @@
+helmChart:
+  chartName: gatekeeper
+  chartVersion: 0.1.48
+  namespace: oidc
+  releaseName: gogatekeeper
+  repo: https://gogatekeeper.github.io/helm-gogatekeeper

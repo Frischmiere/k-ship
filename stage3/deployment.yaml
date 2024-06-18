@@ -1,6 +1,5 @@
 deployments:
   - path: default
-  - path: keycloak
 
   - git:
       url: https://github.com/kluctl/kluctl.git
@@ -26,4 +25,6 @@ deployments:
     #           - --auth-secret-name=gatekeeper-client
 
   - path: kluctl-system
+  - path: monitoring
+  - path: oidc
   - path: traefik

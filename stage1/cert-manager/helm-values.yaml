@@ -8,49 +8,44 @@ extraArgs:
   - --logging-format=json
 resources:
   requests:
-    cpu: 20m
-    memory: 128Mi
+    cpu: 10m
+    memory: 64Mi
   limits:
-    # cpu: 100m
-    memory: 128Mi
+    memory: 64Mi
 prometheus:
   servicemonitor:
     enabled: true
 ingressShim:
   resources:
     requests:
-      cpu: 20m
+      cpu: 10m
       memory: 64Mi
     limits:
-      # cpu: 20m
       memory: 64Mi
 webhook:
   extraArgs:
     - --logging-format=json
   resources:
     requests:
-      cpu: 20m
+      cpu: 10m
       memory: 64Mi
     limits:
-      # cpu: 20m
       memory: 64Mi
 cainjector:
   extraArgs:
     - --logging-format=json
   resources:
     requests:
-      cpu: 20m
-      memory: 64Mi
+      cpu: 10m
+      memory: 100Mi
     limits:
-      # cpu: 100m
-      memory: 64Mi
+      memory: 100Mi
 startupaipcheck:
   extraArgs:
     - --logging-format=json
   resources:
     requests:
-      cpu: 20m
-      memory: 64Mi
+      cpu: 100m
+      memory: 128Mi
     limits:
-      # cpu: 20m
-      memory: 64Mi
+      memory: 128Mi
