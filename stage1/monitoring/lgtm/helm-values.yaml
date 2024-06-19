@@ -1,26 +1,68 @@
 grafana:
+  serviceMonitor:
+    enabled: true
+  datasources:
+    datasources.yaml:
+      datasources:
+        - name: Loki
+          uid: loki
+          type: loki
+          url: http://lgtm-loki-gateway
+          isDefault: false
+        - name: Mimir
+          uid: prom
+          type: prometheus
+          url: http://lgtm-mimir-nginx/prometheus
+          isDefault: true
+          jsonData:
+            prometheusType: mimir
+        - name: Tempo
+          uid: tempo
+          type: tempo
+          url: http://lgtm-tempo-query-frontend:3100
+          isDefault: false
+          jsonData:
+            tracesToLogsV2:
+              datasourceUid: loki
+            lokiSearch:
+              datasourceUid: loki
+            tracesToMetrics:
+              datasourceUid: prom
+            serviceMap:
+              datasourceUid: prom
+        - name: PrometheusRules
+          uid: kpspr
+          type: prometheus
+          url: http://kps-kube-prometheus-stack-prometheus:9090
+          isDefault: false
+          jsonData:
+            # Valid options for implementation include mimir, cortex and prometheus
+            implementation: prometheus
+        - name: Alertmanager
+          uid: kpsam
+          type: alertmanager
+          url: http://kps-kube-prometheus-stack-alertmanager:9093
+          isDefault: false
+          jsonData:
+            implementation: prometheus
+            handleGrafanaManagedAlerts: true
   sidecar:
     skipTlsVerify: true
     # resources:
     #   requests:
-    #     cpu: 50m
+    #     cpu: 10m
     #     memory: 64Mi
     #   limits:
     #     memory: 64Mi
-    alerts:
-      enabled: true
-      searchNamespace: ALL
     dashboards:
       enabled: true
       searchNamespace: ALL
       resource: configmap
-    plugins:
-      enabled: true
-      searchNamespace: ALL
-    notifiers:
-      enabled: true
-      searchNamespace: ALL
 loki:
+  serviceMonitor:
+    enabled: true
+  prometheusRule:
+    enabled: true
   ingester:
     # resources:
     #   requests:
@@ -62,6 +104,11 @@ loki:
     #     memory: 128Mi
     affinity: ""
 tempo:
+  metaMonitoring:
+    serviceMonitor:
+      enabled: true
+  prometheusRule:
+    enabled: true
   server:
     logFormat: json
   # admin_api:
@@ -123,6 +170,7 @@ mimir:
       enabled: true
     serviceMonitor:
       enabled: true
+      clusterLabel: "{{ target.name }}-{{ args.environment }}"
     prometheusRule:
       enabled: true
       mimirAlerts: true

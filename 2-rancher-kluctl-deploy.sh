@@ -22,7 +22,7 @@ data:
   example.server: |
     example.hosts example.io {
         hosts {
-            ${TRAEFIK_EXTERNAL_IP} example.io kluctl.example.io oidc.example.io traefik.example.io grafana.example.io
+            ${TRAEFIK_EXTERNAL_IP} example.io kluctl.example.io oidc.example.io traefik.example.io grafana.example.io mimir.example.io
             fallthrough
         }
     }

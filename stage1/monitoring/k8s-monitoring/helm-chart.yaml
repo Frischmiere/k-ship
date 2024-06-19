@@ -2,5 +2,5 @@ helmChart:
   chartName: k8s-monitoring
   chartVersion: 1.1.0
   namespace: monitoring
-  releaseName: k8s-monitoring
+  releaseName: k8sm
   repo: https://grafana.github.io/helm-charts

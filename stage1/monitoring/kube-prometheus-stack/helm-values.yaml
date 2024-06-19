@@ -1,0 +1,57 @@
+crds:
+  enabled: false
+alertmanager:
+  alertmanagerSpec:
+    logFormat: json
+grafana:
+  enabled: false
+  forceDeployDashboards: true
+prometheusOperator:
+  tls:
+    enabled: false
+  admissionWebhooks:
+    deployment:
+      tls:
+        enabled: false
+      logFormat: json
+    logFormat: json
+  logFormat: json
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
+prometheus:
+  enabled: true
+  prometheusSpec:
+    retention: 1d
+    tsdb:
+      outOfOrderTimeWindow: 10s
+    logFormat: json
+    remoteWrite:
+      - url: "http://lgtm-mimir-nginx/api/v1/push"
+        sendExemplars: true
+        sendNativeHistograms: true
+    remoteWriteDashboards: true
+    resources:
+      requests:
+        cpu: 100m
+        memory: 400Mi
+      limits:
+        memory: 2Gi
+    additionalScrapeConfigs:
+      - job_name: add_cluster_label
+        relabel_configs:
+            # source label must be one that exists, so use __address__
+          - source_labels: [__address__]
+            # target label is the one you want to create
+            target_label: cluster
+            replacement: "{{ target.name }}-{{ args.environment }}"
+    # storageSpec:
+    #   volumeClaimTemplate:
+    #     spec:
+    #       accessModes: ["ReadWriteOnce"]
+    #       resources:
+    #         requests:
+    #           storage: 10Gi
