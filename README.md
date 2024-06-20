@@ -23,13 +23,12 @@ All the essentials for a Kubernetes cluster.
     ```shell
     ./1-rancher-cluster.sh
     ```
-    The shell may be safely cancelled (Ctrl-C).
 1. Deploy the infrastructure:
     ```shell
     ./2-rancher-kluctl-deploy.sh
     ```
-1. Add 'example.io kluctl.example.io oidc.example.io traefik.example.io grafana.example.io' to the 'localhost' line in your '/etc/hosts'.
-1. Get some resources:
+    The shell may be safely cancelled (Ctrl-C).
+1. List some resources:
     ```shell
     ./3-get-ingress.sh
     ```

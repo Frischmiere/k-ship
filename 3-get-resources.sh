@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo 
-echo "Check README.md for updates to your '/etc/hosts'".
+echo "Add 'example.io kluctl.example.io oidc.example.io traefik.example.io grafana.example.io' to the 'localhost' line in your '/etc/hosts'."
 echo 
 echo Who-Am-I \(un-authenticated\): https://example.io/whoami
 echo 
